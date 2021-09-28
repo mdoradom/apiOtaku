@@ -1,4 +1,4 @@
-package Ejercicio1;
+package Actividad1;
 
 // METER PARENT + RESOLV PARA Q PILLE MAS DIRECTORIOS
 
@@ -11,15 +11,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Exercici2_Treediff {
+public class Ejercicio2 {
 
 	static boolean findFile;
 	
 	public static void main(String[] args) throws IOException {
 		  
 		
-		Path path1 = Paths.get("/home/users/inf/wiam2/iam47577708/m06-acces-a-dades/UF1/El sistema de fitxers/Ejercicio 2/dirA" + "");
-		Path path2 = Paths.get("/home/users/inf/wiam2/iam47577708/m06-acces-a-dades/UF1/El sistema de fitxers/Ejercicio 2/dirB" + "");
+		Path path1 = Paths.get("/home/users/inf/wiam2/iam47577708/m06-acces-a-dades/UF1/El sistema de fitxers/Actividad1/directorios/dirA" + "");
+		Path path2 = Paths.get("/home/users/inf/wiam2/iam47577708/m06-acces-a-dades/UF1/El sistema de fitxers/Actividad1/directorios/dirB" + "");
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -98,4 +98,13 @@ public class Exercici2_Treediff {
 
 }
 
+
+
+/*
+ * dirA: /pc/
+ * fileA /pc/a/b/file    a/b/file
+ * 
+ * dirB:  /pen/
+ * fileB /pen/a/b/file   a/b/file
+ */
 
