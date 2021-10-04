@@ -2,7 +2,5 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="El sistema de fitxers"/>
-	<classpathentry kind="src" path="Gestio del contingut"/>
-	<classpathentry kind="src" path="Gestio del contingut en XML"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
