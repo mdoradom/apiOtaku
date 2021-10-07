@@ -67,8 +67,8 @@ public class Ejercicio1 {
 	}
 		
 	public static void main(String[] args) throws IOException {
-		splitFile("/home/users/inf/wiam2/iam47577708/m06-acces-a-dades/UF1/El sistema de fitxers/Actividad2/sample.txt", 4);
-		joinFile("/home/users/inf/wiam2/iam47577708/m06-acces-a-dades/UF1/El sistema de fitxers/Actividad2/sample.txt");
+		splitFile("/home/users/inf/wiam2/iam47577708/m06-acces-a-dades/UF1/El sistema de fitxers/Actividad2/foto.jpg", 4);
+		joinFile("/home/users/inf/wiam2/iam47577708/m06-acces-a-dades/UF1/El sistema de fitxers/Actividad2/foto.jpg");
 	}
 	
 }
