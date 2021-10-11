@@ -1,0 +1,23 @@
+{
+    "alumnos": [
+        {
+            "nombre": "Pepe",
+            "telefono": [
+                {
+                    "Padre":"123123123", 
+                    "Madre":"321312312", 
+                    "Alumno":"123456789"
+                }
+            ]
+        },
+        {
+            "nombre": "Pepe2",
+            "telefono": [
+                {
+                    "Padre":"123123123", 
+                    "Alumno":"123456789"
+                }
+            ]
+        }
+    ]
+}
