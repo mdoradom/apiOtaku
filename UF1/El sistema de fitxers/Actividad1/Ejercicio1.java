@@ -20,7 +20,7 @@ public class Ejercicio1 {
 					if (!path.equals(file.getParent())) {
 						Files.delete(file.getParent());
 						//System.out.println(file.getParent());
-					};
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
