@@ -18,6 +18,17 @@ class Contact {
         this.name = name;
         this.phone = phone;
         this.email = email;
+
+
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
 
@@ -32,36 +43,91 @@ public class Ejercicio {
     static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main (String[] args) throws IOException {
+        //addContact("aa", "123", "aa@aa.aa");
+        //addContact("bb", "321", "bb@bb.bb");
+        //delContact("aa");
+        //listContact();
+        //listEmailContact("aa@aa.aa");
 
-
-
-
-
-
-            // add, eliminar contactos
-
-            // guardar el objecto agenda en el fichero json*/
+        if (args.length == 0) {
+            System.out.println("Error! inserta algún argumento");
+        } else {
+            switch (args[0]) {
+                case "add":
+                    addContact(args[1], args[2], args[3]);
+                    break;
+                case "del":
+                    delContact(args[1]);
+                    break;
+                case "list":
+                    listContact();
+                    break;
+                case "search":
+                    listEmailContact(args[1]);
+                    break;
+                default:
+                    System.out.println("Error! argumento/s no válido/s");
+            }
+        }
 
     }
 
-    public void addContact(String name, String phone, String email) {
-        agenda.list.add(new Contact(name,phone,email));
+    public static void addContact(String name, String phone, String email) throws IOException {
         try {
             agenda = objectMapper.readValue(file.toFile(), Agenda.class);
         } catch (Exception e) {
             agenda = new Agenda();
         }
+        agenda.list.add(new Contact(name,phone,email));
+        objectMapper.writeValue(file.toFile(), agenda);
     }
 
-    public boolean delContact(String name) {
-        return agenda.list.remove(name);
+    public static void delContact(String name) throws IOException {
+        try {
+            agenda = objectMapper.readValue(file.toFile(), Agenda.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Agenda agendaTmp = new Agenda();
+        agendaTmp.list.addAll(agenda.list);
+
+        for (Contact contacto : agendaTmp.list) {
+            if (contacto.name.equals(name)) {
+                agenda.list.remove(contacto);
+            }
+        }
+
+        objectMapper.writeValue(file.toFile(), agenda);
+
     }
 
-    public void listContact() {
-        System.out.println(agenda.list);
+    public static void listContact() {
+        try {
+            agenda = objectMapper.readValue(file.toFile(), Agenda.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (Contact contacto : agenda.list) {
+            System.out.println(contacto.toString());
+        }
+
     }
 
-    public void listEmailContact() {
+    public static void listEmailContact(String email) {
+        try {
+            agenda = objectMapper.readValue(file.toFile(), Agenda.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Contactos encontrados con email: " + email);
+        for (Contact contacto : agenda.list) {
+            if (contacto.email.equals(email)) {
+                System.out.println(contacto);
+            }
+        }
 
     }
  }
