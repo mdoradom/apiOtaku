@@ -7,37 +7,30 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-class ACvillager {
-    public String villagerID;
-    public String nameEUes;
-    public String birthday;
+class Meme {
+    public String name;
+    public String species;
     public String gender;
-    public String hobby;
-    public String saying;
-
 }
 
-class ACvillagersList {
-    public ArrayList<ACvillager> villagersList = new ArrayList<>();
+class MemeList {
+    public ArrayList<Meme> memeList = new ArrayList<>();
 }
 
 public class Ejercicio3 {
     public static void main(String[] args) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        String url = "http://acnhapi.com/v1/villagers/";
+        String url = "http://hp-api.herokuapp.com/api/characters";
 
-        ACvillagersList aCvillagersList = objectMapper.readValue(new URL(url), ACvillagersList.class);
+        MemeList memeList = objectMapper.readValue(new URL(url), MemeList.class);
 
-        System.out.println(aCvillagersList.villagersList.size());
+        System.out.println(memeList.memeList.size());
 
-        /*for (ACvillager villager : aCvillagersList.villagersList) {
-            System.out.println("villagerID: " + villager.villagerID + "\n" +
-                    "Name: " + villager.nameEUes + "\n" +
-                    "Birthday: " + villager.birthday + "\n" +
-                    "Gender: " + villager.gender + "\n" +
-                    "Hobby: " + villager.hobby + "\n" +
-                    "Saying: " + villager.saying + "\n");
-        }*/
+        for (Meme meme : memeList.memeList) {
+            System.out.println("villagerID: " + meme.name + "\n" +
+                    "Name: " + meme.gender + "\n" +
+                    "Birthday: " + meme.species + "\n");
+        }
 
     }
 
