@@ -1,13 +1,20 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.dto.ErrorMessage;
+import com.example.demo.domain.dto.RequestFavorite;
 import com.example.demo.domain.dto.UserRegisterRequest;
+import com.example.demo.domain.model.Animes;
+import com.example.demo.domain.model.Favorite;
 import com.example.demo.domain.model.Result;
 import com.example.demo.domain.model.User;
+import com.example.demo.domain.model.projection.ProjectionUserFavorites;
+import com.example.demo.repository.AnimesRepository;
+import com.example.demo.repository.FavoriteRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +25,8 @@ import java.util.UUID;
 public class UserController {
 
     @Autowired private UserRepository userRepository;
+    @Autowired private AnimesRepository animesRepository;
+    @Autowired private FavoriteRepository favoriteRepository;
     @Autowired private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping(path = "/register" )
@@ -40,7 +49,7 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<?> createUser(@RequestBody User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+        if (userRepository.findByUsername(user.username) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ja existeix un usuari amb el nom '" + user.username + "'");
         } else {
             User userPost = userRepository.save(user);
@@ -70,5 +79,65 @@ public class UserController {
                 "<input name='username' id='username' placeholder='Username'>" +
                 "<input id='password' type='password' placeholder='Password'>" +
                 "<input type='button' value='Register' onclick='fetch(\"/users/register/\",{method:\"POST\",headers:{\"Content-Type\":\"application/json\"},body:`{\"username\":\"${username.value}\",\"password\":\"${password.value}\"}`})'></div>";
+    }
+
+    @GetMapping("/favorites")
+    public ResponseEntity<?> getFavorites( Authentication authentication) {
+        if (authentication != null) {
+            User authenticatedUser = userRepository.findByUsername(authentication.getName());
+
+            if (authenticatedUser != null) {
+                return ResponseEntity.ok().body(userRepository.findByUsername(authentication.getName(), ProjectionUserFavorites.class));
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorMessage.message("No autorizado"));
+    }
+
+    @PostMapping("/favorites")
+    public ResponseEntity<?> addFavorites( @RequestBody RequestFavorite requestFavorite,Authentication authentication) {
+        Animes anime = animesRepository.findById(requestFavorite.animeid).orElse(null);
+        if (authentication != null) {
+            User authenticatedUser = userRepository.findByUsername(authentication.getName());
+            if (authenticatedUser != null) {
+                if (anime != null) {
+                    Favorite favorite = new Favorite();
+                    favorite.animeid = requestFavorite.animeid;
+                    favorite.userid = authenticatedUser.userid;
+                    return ResponseEntity.ok().body(favoriteRepository.save(favorite));
+                } else {
+                    return  ResponseEntity.ok().body(ErrorMessage.message("No s'ha trobat l'anime amb id "  + "'" + requestFavorite.animeid + "'"));
+                }
+
+            }
+
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorMessage.message("No autorizado"));
+    }
+
+    @DeleteMapping("/favorites")
+    public ResponseEntity<?> delFavorite(@RequestBody RequestFavorite requestFavorite, Authentication authentication) {
+        Favorite favorite2 = favoriteRepository.findByAnimeid(requestFavorite.animeid);
+        if (authentication != null) {
+
+            User authenticatedUser = userRepository.findByUsername(authentication.getName());
+
+            if (authenticatedUser != null) {
+
+                if (favorite2 != null) {
+                    Favorite favorite = new Favorite();
+                    favorite.animeid = requestFavorite.animeid;
+                    favorite.userid = authenticatedUser.userid;
+                    favoriteRepository.delete(favorite);
+                    return ResponseEntity.ok().body(ErrorMessage.message("S'ha eliminat dels favorits l'anime amd id "  + "'" + requestFavorite.animeid + "'"));
+                } else {
+                    return  ResponseEntity.ok().body(ErrorMessage.message("No s'ha trobat l'anime amb id "  + "'" + requestFavorite.animeid + "'"));
+                }
+
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorMessage.message("No autorizado"));
     }
 }
