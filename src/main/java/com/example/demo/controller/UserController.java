@@ -2,15 +2,18 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.dto.ErrorMessage;
 import com.example.demo.domain.dto.RequestFavorite;
+import com.example.demo.domain.dto.ResponseList;
 import com.example.demo.domain.dto.UserRegisterRequest;
 import com.example.demo.domain.model.Animes;
 import com.example.demo.domain.model.Favorite;
-import com.example.demo.domain.model.Result;
 import com.example.demo.domain.model.User;
+import com.example.demo.domain.model.projection.ProjectionUser;
 import com.example.demo.domain.model.projection.ProjectionUserFavorites;
+import com.example.demo.domain.model.projection.ProjectionValoration;
 import com.example.demo.repository.AnimesRepository;
 import com.example.demo.repository.FavoriteRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.ValorationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,6 +30,7 @@ import java.util.UUID;
 public class UserController {
 
     @Autowired private UserRepository userRepository;
+    @Autowired private ValorationRepository valorationRepository;
     @Autowired private AnimesRepository animesRepository;
     @Autowired private FavoriteRepository favoriteRepository;
     @Autowired private BCryptPasswordEncoder passwordEncoder;
@@ -43,8 +49,8 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public Result getALl(){
-        return new Result(userRepository.findAll());
+    public ResponseEntity<?> findAllUsers(){
+        return ResponseEntity.ok().body(new ResponseList(userRepository.findBy(ProjectionUser.class)));
     }
 
     @PostMapping("/")
@@ -140,4 +146,16 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorMessage.message("No autorizado"));
     }
+
+    /*@GetMapping("/ratings")
+    public ResponseEntity<?> getRatings(Authentication authentication){
+        if (authentication != null) {
+            User authenticatedUser = userRepository.findByUsername(authentication.getName());
+            if (authenticatedUser != null) {
+                List valorations = valorationRepository.findAllValorations();
+                return ResponseEntity.ok().body(valorations);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorMessage.message("No autorizado"));
+    }*/
 }

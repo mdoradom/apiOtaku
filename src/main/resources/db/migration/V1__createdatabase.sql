@@ -4,7 +4,10 @@ CREATE TABLE animes (
     description text,
     type text,
     yearr integer,
-    image text
+    image text --,
+    --image2 text,
+    --image3 text,
+    --image4 text
     );
 
 CREATE TABLE authors (
@@ -36,6 +39,9 @@ INSERT INTO animes(name, description, type, yearr, image) VALUES
     ('Anime Two','The Two Anime is the next', 'film', 2020, 'Anime2.jpg'),
     ('Anime Three','The Trilogy', 'film', 2020, 'Anime3.jpg'),
     ('Anime Four','Four Animes is too much', 'film', 2020, 'Anime4.jpg');
+
+--INSERT INTO animes(name, description, type, yearr, image, image2, image3, image4) VALUE
+--    ('Anime Five','Five Animes XD', 'film', 2020, 'Anime5_1.jpg', 'Anime5_1.jpg', 'Anime5_1.jpg', 'Anime5_1.jpg');
 
 INSERT INTO authors(name, image) VALUES
     ('Author One','Author1.jpg'),

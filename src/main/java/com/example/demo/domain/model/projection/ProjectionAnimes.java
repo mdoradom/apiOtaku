@@ -1,5 +1,6 @@
 package com.example.demo.domain.model.projection;
 
+import com.example.demo.domain.model.Valoration;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -22,4 +23,7 @@ public interface ProjectionAnimes {
 
     @JsonIgnoreProperties("genres")
     Set<ProjectionGenres> getGenres();
+
+    @JsonIgnoreProperties("ratings")
+    Set<ProjectionValoration> getRatings();
 }

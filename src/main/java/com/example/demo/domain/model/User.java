@@ -4,6 +4,7 @@ package com.example.demo.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,15 +16,15 @@ public class User {
     public UUID userid;
     public String username;
 
-    @JsonIgnore
     public String password;
 
-    @JsonIgnore
     public String role;
 
-    @JsonIgnore
     public boolean enabled;
 
     @ManyToMany(mappedBy = "favoritedby")
     public Set<Animes> favorites;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Valoration> ratings = new HashSet<>();
 }

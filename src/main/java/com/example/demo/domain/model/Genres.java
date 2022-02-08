@@ -18,36 +18,4 @@ public class Genres {
 
     @ManyToMany(mappedBy = "genres")
     public Set<Animes> animes;
-
-    public Set<Animes> getAnimes() {
-        return animes;
-    }
-
-    public void setAnimes( Set<Animes> animes ) {
-        this.animes = animes;
-    }
-
-    public UUID getGenreid() {
-        return genreid;
-    }
-
-    public void setGenreid( UUID genreid ) {
-        this.genreid = genreid;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel( String label ) {
-        this.label = label;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage( String image ) {
-        this.image = image;
-    }
 }
