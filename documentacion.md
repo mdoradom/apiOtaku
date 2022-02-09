@@ -50,97 +50,60 @@ To Do list:
 
         - **Add Rating:**
 
-            ```java
-            @PostMapping("/rating")
-            public ResponseEntity<?> createRating(@RequestBody Valoration valoration) {
-                Valoration valorationPost = new Valoration();
-                valorationPost.userid = valoration.userid;
-                valorationPost.animeid = valoration.animeid;
-                valorationPost.rating = valoration.rating;
-                valorationRepository.save(valorationPost);
-                return ResponseEntity.ok().build();
+            *Valorar un anime*
+
+            Request URL
+            ```https
+            http://localhost:8080/animes/rating/
+            ```
+            Request Body
+            ```json
+            {
+                "animeid": "4bdad251-445e-4f83-bba8-f5c4344a14a9",
+                "userid": "dedf1b39-0254-4e0e-a277-566171ae7ad9",
+                "rating": 1
             }
             ```
-
-            - **Sample Request:**
-
-                Request URL
-                ```https
-                http://localhost:8080/animes/rating/
-                ```
-                Request Body
-                ```json
-                {
-                    "animeid": "4bdad251-445e-4f83-bba8-f5c4344a14a9",
-                    "userid": "dedf1b39-0254-4e0e-a277-566171ae7ad9",
-                    "rating": 1
-                }
-                ```
 
         - **Remove Rating:**
 
-            ```java
-            @DeleteMapping("/rating/{animeid}/{userid}")
-            public ResponseEntity<?> deleteRating(@PathVariable UUID animeid, @PathVariable UUID userid) {
-                List <Valoration> valorations = valorationRepository.findAll();
-                for (Valoration val : valorations) {
-                    if (val.animeid.equals(animeid) && val.userid.equals(userid)) {
-                        valorationRepository.delete(val);
-                        return ResponseEntity.ok().body("registro eliminado");
-                    }
-                }
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorMessage.message("No s'ha trobat la valoració"));
-            }
+            *Eliminar una valoración*
+
+            Request URL
+            ```https
+            http://localhost:8080/animes/rating/4bdad251-445e-4f83-bba8-f5c4344a14a9/dedf1b39-0254-4e0e-a277-566171ae7ad9
             ```
+            Response
+            ```json
+            "registro eliminador"
 
-            - **Sample Request:**
+            -----------------------
 
-                Request URL
-                ```https
-                http://localhost:8080/animes/rating/4bdad251-445e-4f83-bba8-f5c4344a14a9/dedf1b39-0254-4e0e-a277-566171ae7ad9
-                ```
-                Body
-                ```json
-                "registro eliminador"
-
-                -----------------------
-
-                "No s'ha trobat la valoració"
-                ```
+            "No s'ha trobat la valoració"
+            ```
 
 
         - **Get Ratings:**
 
-            ```java
-            @GetMapping("/rating/{id}")
-            public ResponseEntity<?> getRating(@PathVariable UUID id){
-                List<ProjectionAnimesRating> anime = animeRepository.findByAnimeid(id, ProjectionAnimesRating.class);
-                if (anime != null) {
-                    return  ResponseEntity.ok().body(anime);
-                }
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorMessage.message("No s'ha trobat l'anime amb id '" + id + "'"));
-            }
+            *Ver valoraciones de un anime*
+
+            Request URL
+            ```https
+            http://localhost:8080/animes/rating/4bdad251-445e-4f83-bba8-f5c4344a14a9
             ```
-
-            - **Sample Request:**
-
-                Request URL
-                ```https
-                http://localhost:8080/animes/rating/4bdad251-445e-4f83-bba8-f5c4344a14a9
-                ```
-                Body
-                ```json
-                [
-                    {
-                        "animeid": "4bdad251-445e-4f83-bba8-f5c4344a14a9",
-                        "ratings": [
-                            {
-                                "animeid": "4bdad251-445e-4f83-bba8-f5c4344a14a9",
-                                "userid": "6bcfb2f1-4895-4f95-b48c-13e61abe0773",
-                                "rating": 5.5
-                            }
-                        ],
-                        "name": "Anime One"
-                    }
-                ]
-                ```
+            Body
+            ```json
+            [
+                {
+                    "animeid": "4bdad251-445e-4f83-bba8-f5c4344a14a9",
+                    "ratings": [
+                        {
+                            "animeid": "4bdad251-445e-4f83-bba8-f5c4344a14a9",
+                            "userid": "6bcfb2f1-4895-4f95-b48c-13e61abe0773",
+                            "rating": 5.5
+                        }
+                    ],
+                    "name": "Anime One"
+                }
+            ]
+            ```
