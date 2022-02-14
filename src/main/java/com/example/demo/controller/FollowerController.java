@@ -80,7 +80,7 @@ public class FollowerController {
                     follower.followed = id;
                     follower.userid = authenticatedUser.userid;
                     followersRepository.delete(follower);
-                    return ResponseEntity.ok().body(ErrorMessage.message("S'ha eliminat dels follower l'usuari amb id "  + "'" + id + "'"));
+                    return ResponseEntity.ok().body(ErrorMessage.message("Has deixat de seguir a l'usuari amb id "  + "'" + id + "'"));
                 } else {
                     return  ResponseEntity.ok().body(ErrorMessage.message("No s'ha trobat el follower amb id "  + "'" + id + "'"));
                 }
